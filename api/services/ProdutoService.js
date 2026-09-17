@@ -9,7 +9,6 @@ class ProdutoService {
 
   buscarPorId(id) {
     const produto = this.repository.findById(id);
-    if (!produto) throw new Error('Produto nao encontrado');
     return produto;
   }
 
@@ -19,7 +18,7 @@ class ProdutoService {
 
   remover(id) {
     const removido = this.repository.delete(id);
-    if (!removido) throw new Error('Produto nao encontrado');
+    if (!removido) throw new Error('Produto não encontrado');
   }
 }
 
