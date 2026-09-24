@@ -102,11 +102,11 @@ describe('API /pedidos (integracao com supertest)', () => {
     test('retorna 200 e o pedido com o novo status quando o id existe', async () => {
       const res = await request(app)
         .patch('/pedidos/1/status')
-        .send({ status: 'entregue' });
+        .send({ status: 'pago' });
 
       expect(res.status).toBe(200);
       expect(res.body.id).toBe(1);
-      expect(res.body.status).toBe('entregue');
+      expect(res.body.status).toBe('pago');
     });
 
     test('retorna 404 quando o pedido nao existe', async () => {

@@ -31,8 +31,8 @@ class ClienteController {
       const cliente = this.service.atualizar(req.params.id, req.body);
       res.json(cliente);
     } catch (err) {
-      // Trate a mensagem de recurso não encontrado com status 404
-      if (err.message === "Cliente não encontrado") {
+      // Compatível com as mensagens usadas pelas versões do service.
+      if (err.message === "Cliente não encontrado" || err.message === "Cliente nao encontrado") {
         return res.status(404).json({ erro: err.message });
       }
       res.status(400).json({ erro: err.message });

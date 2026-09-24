@@ -23,12 +23,28 @@ class PedidoRepository {
   }
 
   create(dados) {
-    const total = dados.itens
-      ? dados.itens.reduce((acc, item) => acc + item.preco * item.quantidade, 0)
-      : 0;
+    if (!dados || !dados.cliente) {
+      throw new Error("Cliente e obrigatorio");
+    }
+    if (!Array.isArray(dados.itens) || dados.itens.length === 0) {
+      throw new Error("A lista de itens nao pode estar vazia");
+    }
+
+    const total = dados.itens.reduce((acc, item) => {
+      const preco = item.precoUnitario ?? item.preco;
+      if (
+        !Number.isFinite(preco) ||
+        preco <= 0 ||
+        !Number.isFinite(item.quantidade) ||
+        item.quantidade <= 0
+      ) {
+        throw new Error("Preco e quantidade do item devem ser maiores que zero");
+      }
+      return acc + preco * item.quantidade;
+    }, 0);
 
     const novoPedido = {
-      id: this.proximoId++,
+      id: this.nextId++,
       ...dados,
       status: dados.status || 'pendente',
       total
