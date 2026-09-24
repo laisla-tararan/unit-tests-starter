@@ -26,16 +26,20 @@ class PedidoController {
     }
   }
 
+  // Exemplo no PedidoController.js
   atualizarStatus(req, res) {
     try {
-      const pedido = this.service.atualizarStatus(req.params.id, req.body.status);
-      res.json(pedido);
+      const id = Number(req.params.id);
+      const { status } = req.body;
+
+      const pedido = this.service.atualizarStatus(id, status);
+      return res.status(200).json(pedido);
     } catch (err) {
-      if (err.message === "Pedido nao encontrado") {
-        res.status(404).json({ erro: err.message });
-      } else {
-        res.status(400).json({ erro: err.message });
+      // Captura variações da mensagem de erro e retorna 404
+      if (err.message.includes("encontrado")) {
+        return res.status(404).json({ erro: err.message });
       }
+      return res.status(400).json({ erro: err.message });
     }
   }
 

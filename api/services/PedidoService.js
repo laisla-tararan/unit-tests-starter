@@ -13,7 +13,9 @@ class PedidoService {
     return pedido;
   }
 
+  // Exemplo no PedidoService.js
   criar(dados) {
+    // Repasse os dados diretamente para o repository:
     return this.repository.create(dados);
   }
 

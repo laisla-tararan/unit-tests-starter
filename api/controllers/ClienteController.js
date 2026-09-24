@@ -31,11 +31,11 @@ class ClienteController {
       const cliente = this.service.atualizar(req.params.id, req.body);
       res.json(cliente);
     } catch (err) {
-      if (err.message === "Cliente nao encontrado") {
-        res.status(404).json({ erro: err.message });
-      } else {
-        res.status(400).json({ erro: err.message });
+      // Trate a mensagem de recurso não encontrado com status 404
+      if (err.message === "Cliente não encontrado") {
+        return res.status(404).json({ erro: err.message });
       }
+      res.status(400).json({ erro: err.message });
     }
   }
 

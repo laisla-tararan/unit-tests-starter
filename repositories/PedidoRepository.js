@@ -19,38 +19,23 @@ class PedidoRepository {
   }
 
   findById(id) {
-    return this.pedidos.find((p) => p.id === Number(id)) || null;
+    return this.pedidos.find(p => p.id === Number(id)) || null;
   }
 
   create(dados) {
-    if (!dados.cliente) {
-      throw new Error("Cliente e obrigatorio");
-    }
-    if (!Array.isArray(dados.itens) || dados.itens.length === 0) {
-      throw new Error("Pedido deve ter ao menos um item");
-    }
+    const total = dados.itens
+      ? dados.itens.reduce((acc, item) => acc + item.preco * item.quantidade, 0)
+      : 0;
 
-    const itemInvalido = dados.itens.some(
-      (item) => !item.nome || item.precoUnitario <= 0 || item.quantidade <= 0,
-    );
-    if (itemInvalido) {
-      throw new Error("Itens devem ter nome, preco e quantidade validos");
-    }
-
-    const total = dados.itens.reduce(
-      (soma, item) => soma + item.precoUnitario * item.quantidade,
-      0,
-    );
-
-    const pedido = {
-      id: this.nextId++,
-      cliente: dados.cliente,
-      itens: dados.itens,
-      status: "pendente",
-      total,
+    const novoPedido = {
+      id: this.proximoId++,
+      ...dados,
+      status: dados.status || 'pendente',
+      total
     };
-    this.pedidos.push(pedido);
-    return pedido;
+
+    this.pedidos.push(novoPedido);
+    return novoPedido;
   }
 
   updateStatus(id, novoStatus) {

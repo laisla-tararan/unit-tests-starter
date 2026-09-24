@@ -1,4 +1,5 @@
 class ProdutoController {
+  
   constructor(service) {
     this.service = service;
   }
@@ -11,6 +12,11 @@ class ProdutoController {
   buscarPorId(req, res) {
     try {
       const produto = this.service.buscarPorId(req.params.id);
+
+      if (!produto) {
+        return res.status(404).json({ erro: "Produto não encontrado" });
+      }
+
       res.json(produto);
     } catch (err) {
       res.status(404).json({ erro: err.message });
@@ -34,6 +40,7 @@ class ProdutoController {
       res.status(404).json({ erro: err.message });
     }
   }
+  
 }
 
 module.exports = ProdutoController;
