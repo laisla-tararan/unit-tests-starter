@@ -9,8 +9,8 @@ test.beforeEach(async ({ page, request }) => {
 
 async function adicionarItem(page, produto, quantidade = '1') {
     await page.getByLabel('Produto', {exact: true}).selectOption({label: produto})
-    await page.getByRole('Quantidade').fill(quantidade)
-    await page.getByRole('button', {name: 'Adicionar Item'}).click()
+    await page.getByLabel('Quantidade', { exact: true }).fill(quantidade)
+    await page.getByRole('button', {name: 'Adicionar item'}).click()
 }
 
 //P1 - Listar os pedidos iniciais 
@@ -39,7 +39,7 @@ test('Montar um pedido com um item', async ({page}) => {
     await expect(page.getByLabel('Status do pedido 2')).toHaveValue('pendente')
 
     await expect(page.getByLabel('Cliente', { exact: true })).toHaveValue('')
-    await expect(page.getByText('1x Pastel')).toHaveCount(1)
+    await expect(page.locator('ul')).toHaveCount(0)
 })
 
 //P3 - Montar um pedido com vários itens e quantidades
@@ -71,11 +71,11 @@ test('Não criar pedido sem cliente', async ({page}) => {
 })
 
 //P6 - Não criar pedido sem itens
-test('Não criar pedido sem cliente', async ({page}) => {
+test('Não criar pedido sem itens', async ({page}) => {
     await page.getByLabel('Cliente', { exact: true }).selectOption({ label: 'Ana Souza' })
     await page.getByRole('button', { name: 'Criar pedido' }).click()
  
-    await expect(page.getByText('Pedido deve ter ao menos um item')).toBeVisible()
+    await expect(page.getByText('A lista de itens nao pode estar vazia')).toBeVisible()
     await expect(page.getByRole('row')).toHaveCount(2)
 })
 

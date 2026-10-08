@@ -32,7 +32,7 @@ test('Cadastrar um cliente novo', async ({ page }) => {
 //C3 - Validar campos obrigatorios
 test('Validar campos obrigatorios', async ({ page }) => {
   await page.getByRole('button', { name: 'Cadastrar' }).click()
-  await expect(page.getByText('Nome e email sao obrigatorios')).toBeVisible()
+  await expect(page.getByText('Nome e email são obrigatórios')).toBeVisible()
   await expect(page.getByRole('row')).toHaveCount(3)
 })
 
@@ -41,7 +41,7 @@ test('Impedir email duplicado', async ({ page }) => {
   await page.getByLabel('Nome').fill('Teste')
   await page.getByLabel('Email').fill('ana@email.com')
   await page.getByRole('button', { name: 'Cadastrar' }).click()
-  await expect(page.getByText('Email ja cadastrado')).toBeVisible()
+  await expect(page.getByText('E-mail já cadastrado')).toBeVisible()
   await expect(page.getByRole('row')).toHaveCount(3)
 })
 
@@ -92,7 +92,7 @@ test('Editar para um email ja usado', async ({ page }) => {
   await page.getByLabel('Email').fill('ana@email.com')
   await page.getByRole('button', { name: 'Salvar' }).click()
 
-  await expect(page.getByText('Email ja cadastrado')).toBeVisible()
+  await expect(page.getByText('E-mail já cadastrado')).toBeVisible()
 
   await expect(linha.getByRole('cell', { name: 'bruno@email.com' })).toBeVisible()
 })
@@ -122,7 +122,7 @@ test('Fluxo completo de cliente', async ({ page }) => {
   await page.getByLabel('Nome').fill('Outro Diego')
   await page.getByLabel('Email').fill('diego@email.com')
   await page.getByRole('button', { name: 'Cadastrar' }).click()
-  await expect(page.getByText('Email ja cadastrado')).toBeVisible()
+  await expect(page.getByText('E-mail já cadastrado')).toBeVisible()
   await expect(page.getByRole('row')).toHaveCount(4)
 
   const linhaDiego = page.getByRole('row', { name: /Diego Matos/ })
